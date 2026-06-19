@@ -3,6 +3,10 @@
 import os
 import sys
 
+from Novari.load_env import load_env_file
+
+load_env_file()
+
 
 def main():
     """Run administrative tasks."""
