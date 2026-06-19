@@ -1,6 +1,6 @@
 # Frontend ↔ Backend Integration
 
-This branch (`main`) is the Vite React storefront and admin UI. The Django REST API lives on the **`backend-system`** branch (under `Novari/` in that checkout).
+This branch (`main`) is the Vite React storefront and admin UI. The Django REST API lives on the **`backend-system`** branch (backend-only repo at that branch's root).
 
 ## Environment
 
@@ -22,7 +22,6 @@ API requests go **directly** to Django via `VITE_API_URL` (CORS must allow your 
 
 ```bash
 git checkout backend-system
-cd Novari
 copy .env.example .env
 docker compose up -d
 .\.venv\Scripts\python manage.py migrate
@@ -30,7 +29,7 @@ docker compose up -d
 .\.venv\Scripts\python manage.py runserver
 ```
 
-See `docs/frontend-backend-integration.md` on **`backend-system`** for full backend env vars and setup options.
+See `README.md` on **`backend-system`** for full backend env vars and setup options.
 
 **Terminal 2 — frontend** (this branch):
 

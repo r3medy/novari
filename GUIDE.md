@@ -1,13 +1,13 @@
 # Novari — Hosting Guide (from scratch)
 
 Step-by-step instructions to take Novari from this repository to a live production site.
-Novari has **two independent parts** hosted separately — frontend on **`main`**, backend on **`backend-system`** (`Novari/` in that checkout):
+Novari has **two independent parts** hosted separately — frontend on **`main`**, backend on **`backend-system`** (Django at repo root in that checkout):
 
 
 | Part                                    | Stack                       | Lives in            | Output                           |
 | --------------------------------------- | --------------------------- | ------------------- | -------------------------------- |
 | **Frontend** (storefront + React admin) | React 19 + Vite 8           | repo root (`/`)     | static files in `dist/`          |
-| **Backend** (REST API)                  | Django 6 + DRF + PostgreSQL | **`backend-system`** branch (`Novari/`) | a long-running server (Gunicorn) |
+| **Backend** (REST API)                  | Django 6 + DRF + PostgreSQL | **`backend-system`** branch (repo root) | a long-running server (Gunicorn) |
 
 
 They talk to each other over HTTPS: the frontend calls the backend API using `VITE_API_URL`
