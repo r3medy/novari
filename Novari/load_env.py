@@ -1,4 +1,4 @@
-"""Load Novari/.env into os.environ for local development."""
+"""Load repo-root `.env` into os.environ for local development."""
 
 from __future__ import annotations
 
@@ -9,7 +9,7 @@ _PROJECT_DIR = Path(__file__).resolve().parent.parent
 
 
 def load_env_file() -> None:
-    """Populate os.environ from Novari/.env when vars are not already set."""
+    """Populate os.environ from repo-root `.env` when vars are not already set."""
     env_path = _PROJECT_DIR / '.env'
     if not env_path.is_file():
         return

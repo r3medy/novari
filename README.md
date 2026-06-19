@@ -1,73 +1,30 @@
-# React + TypeScript + Vite
+# Novari Backend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Django 6 REST API for the Novari storefront. This **`backend-system`** branch is backend-only — the React frontend lives on **`main`**.
 
-Currently, two official plugins are available:
+## Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Django 6 + Django REST Framework
+- PostgreSQL 16 (Docker Compose for local dev)
+- Token-based admin auth, product catalog, orders, image upload
 
-## React Compiler
+## Local setup
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```powershell
+copy .env.example .env
+docker compose up -d
+python -m venv .venv
+.\.venv\Scripts\pip install django djangorestframework django-cors-headers pillow psycopg2-binary
+.\.venv\Scripts\python manage.py migrate
+.\.venv\Scripts\python manage.py seed_products
+.\.venv\Scripts\python manage.py runserver
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+API: http://localhost:8000  
+Endpoints are under `/api/` (e.g. `GET /api/products/`).
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Pair with the frontend on **`main`**: set `VITE_API_URL=http://localhost:8000` in `.env.local` before `pnpm dev`.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Admin
+
+`seed_products` creates `admin@novari.test`. Password comes from `SEED_ADMIN_PASSWORD` in `.env`, or is printed to the console if unset.
