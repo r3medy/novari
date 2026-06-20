@@ -37,7 +37,6 @@ export function AdminAddProductDrawer({
   const [discount, setDiscount] = useState(0)
   const [description, setDescription] = useState('')
   const [selectedColors, setSelectedColors] = useState<string[]>([])
-  const [images, setImages] = useState<string[]>([])
   const [inStock, setInStock] = useState(true)
   const [stockCount, setStockCount] = useState(10)
   const [error, setError] = useState<string | null>(null)
@@ -49,7 +48,6 @@ export function AdminAddProductDrawer({
     setDiscount(0)
     setDescription('')
     setSelectedColors([])
-    setImages([])
     setInStock(true)
     setStockCount(10)
     setError(null)
@@ -93,7 +91,6 @@ export function AdminAddProductDrawer({
           numericPrice: Math.max(0, numericPrice),
           discount: Math.min(100, Math.max(0, discount)),
           description: description.trim(),
-          images: images.length > 0 ? images : [PRODUCT_PLACEHOLDER_IMAGE],
           colors: selectedColors,
           inStock,
           stockCount: Math.max(0, stockCount),
@@ -268,45 +265,6 @@ export function AdminAddProductDrawer({
               value={description}
               onChange={(event) => setDescription(event.target.value)}
               className={textareaClassName}
-            />
-          </div>
-
-          <div className="space-y-4">
-            <p className="font-mono text-sm uppercase tracking-widest text-cream/80">
-              Product images
-            </p>
-            {images.length > 0 && (
-              <ul className="space-y-2">
-                {images.map((image, index) => (
-                  <li
-                    key={`new-product-image-${index}`}
-                    className="flex items-center gap-3 border border-cream/20 bg-obsidian p-3"
-                  >
-                    <img
-                      src={image}
-                      alt=""
-                      className="h-12 w-12 border border-cream/30 object-cover"
-                    />
-                    <span className="flex-1 truncate font-mono text-xs text-cream/60">
-                      {image}
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setImages((prev) => prev.filter((_, i) => i !== index))
-                      }
-                      aria-label={`Remove image ${index + 1}`}
-                      className="flex h-10 w-10 shrink-0 items-center justify-center border border-cream/30 bg-obsidian font-mono text-sm text-cream transition-colors duration-300 hover:border-gold hover:text-gold focus:outline-none focus-visible:ring-2 focus-visible:ring-gold"
-                    >
-                      -
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            )}
-            <AdminImageUpload
-              label="Upload photo"
-              onUploaded={(url) => setImages((prev) => [...prev, url])}
             />
           </div>
 
