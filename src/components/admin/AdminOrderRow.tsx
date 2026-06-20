@@ -27,10 +27,13 @@ const chevron = (
 )
 
 function formatOrderDate(iso: string): string {
+  const date = new Date(iso)
+  if (!Number.isFinite(date.getTime())) return '—'
+
   return new Intl.DateTimeFormat(undefined, {
     dateStyle: 'medium',
     timeStyle: 'short',
-  }).format(new Date(iso))
+  }).format(date)
 }
 
 function customerName(order: ApiOrder): string {

@@ -8,6 +8,7 @@ import type {
   AdminOrderStatus,
   ApiAdminLoginResponse,
   ApiOrder,
+  ApiOrderResponse,
   ApiProduct,
 } from './types'
 
@@ -95,8 +96,8 @@ export async function updateAdminOrderStatus(
   token: string,
   orderId: number,
   status: AdminOrderStatus
-): Promise<ApiOrder> {
-  return apiFormDataRequest<ApiOrder>(`/api/admin/orders/${orderId}/`, { status }, {
+): Promise<void> {
+  await apiFormDataRequest<ApiOrderResponse>(`/api/admin/orders/${orderId}/`, { status }, {
     method: 'PATCH',
     token,
   })

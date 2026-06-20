@@ -110,25 +110,22 @@ export function useAdminOrders() {
     (orderId: number, status: AdminOrderStatus) => {
       if (!token) return
 
-      const previousStatus = orders.find((order) => order.id === orderId)?.status
+      let previousStatus: string | undefined
 
-      setOrders((prev) =>
-        prev.map((order) => (order.id === orderId ? { ...order, status } : order))
-      )
+      setOrders((prev) => {
+        previousStatus = prev.find((order) => order.id === orderId)?.status
+        return prev.map((order) => (order.id === orderId ? { ...order, status } : order))
+      })
 
       setSavingIds((prev) => new Set(prev).add(orderId))
 
       void updateAdminOrderStatus(token, orderId, status)
-        .then((updated) => {
-          setOrders((prev) =>
-            prev.map((order) => (order.id === orderId ? updated : order))
-          )
-        })
         .catch((err) => {
           if (previousStatus !== undefined) {
+            const rollbackStatus = previousStatus
             setOrders((prev) =>
               prev.map((order) =>
-                order.id === orderId ? { ...order, status: previousStatus } : order
+                order.id === orderId ? { ...order, status: rollbackStatus } : order
               )
             )
           }
@@ -142,7 +139,7 @@ export function useAdminOrders() {
           })
         })
     },
-    [orders, token]
+    [token]
   )
 
   return {
