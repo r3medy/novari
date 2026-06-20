@@ -19,10 +19,21 @@ const footerColumns: FooterColumn[] = [
     title: 'Shop',
     links: [
       { label: 'All Products', href: '/products' },
-      { label: 'T-Shirts', href: '/products?category=T-Shirts' },
-      { label: 'Hoodies', href: '/products?category=Hoodies' },
     ],
   },
+  {
+    title: 'Developed by',
+    links: [
+      {
+        label: "Yousef Adel",
+        href: "https://www.linkedin.com/in/yousef-adel00/"
+      },
+      {
+        label: "Mohamed Safwat",
+        href: "https://www.linkedin.com/in/mohamed-safwat-169968314/"
+      }
+    ]
+  }
 ]
 
 const socialMedia = [
