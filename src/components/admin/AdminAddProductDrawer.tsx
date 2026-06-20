@@ -28,6 +28,7 @@ export function AdminAddProductDrawer({
   const [numericPrice, setNumericPrice] = useState(450)
   const [discount, setDiscount] = useState(0)
   const [description, setDescription] = useState('')
+  const [selectedColors, setSelectedColors] = useState<string[]>([])
   const [inStock, setInStock] = useState(true)
   const [stockCount, setStockCount] = useState(10)
   const [error, setError] = useState<string | null>(null)
@@ -38,6 +39,7 @@ export function AdminAddProductDrawer({
     setNumericPrice(450)
     setDiscount(0)
     setDescription('')
+    setSelectedColors([])
     setInStock(true)
     setStockCount(10)
     setError(null)
@@ -64,8 +66,7 @@ export function AdminAddProductDrawer({
           numericPrice: Math.max(0, numericPrice),
           discount: Math.min(100, Math.max(0, discount)),
           description: description.trim(),
-          images: [],
-          colors: [],
+          colors: selectedColors,
           inStock,
           stockCount: Math.max(0, stockCount),
         })
@@ -241,6 +242,13 @@ export function AdminAddProductDrawer({
               className={textareaClassName}
             />
           </div>
+
+          <AdminColorPicker
+            availableColors={colorOptions}
+            selectedColors={selectedColors}
+            onToggleColor={handleToggleColor}
+            onAddColor={handleAddColor}
+          />
 
           {error && (
             <p className="font-mono text-sm text-gold" role="alert">
