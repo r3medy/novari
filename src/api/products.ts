@@ -1,4 +1,5 @@
 import { apiRequest } from '../lib/apiClient'
+import { resolveMediaUrl, toApiMediaPath } from '../lib/mediaUrl'
 import type { Product } from '../data/products'
 import type { ApiProduct } from './types'
 
@@ -7,9 +8,11 @@ export function toProduct(apiProduct: ApiProduct): Product {
     apiProduct.colors ??
     (apiProduct.color ? [apiProduct.color] : [])
 
-  const images =
+  const rawImages =
     apiProduct.images ??
     (apiProduct.image ? [apiProduct.image] : [])
+
+  const images = rawImages.map(resolveMediaUrl)
 
   return {
     id: String(apiProduct.id).padStart(2, '0'),
@@ -50,7 +53,9 @@ export function toApiProductPayload(
   if (product.discount !== undefined) payload.discount = product.discount
   if (product.category !== undefined) payload.category = product.category
   if (product.colors !== undefined) payload.colors = product.colors
-  if (product.images !== undefined) payload.images = product.images
+  if (product.images !== undefined) {
+    payload.images = product.images.map(toApiMediaPath)
+  }
   if (product.inStock !== undefined) payload.in_stock = product.inStock
   if (product.stockCount !== undefined) payload.stock_count = product.stockCount
   if (product.sales !== undefined) payload.sales = product.sales
